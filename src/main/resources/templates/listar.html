@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar/Editar Venta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-['Roboto',sans-serif] bg-gradient-to-br from-blue-400 via-blue-200 to-blue-100 min-h-screen flex flex-col">
+    <div id="main-container" class="container max-w-[1000px] mx-auto my-10 p-5 bg-gradient-to-br from-white via-[#e0eafc] to-[#cfdef3] shadow-2xl rounded-xl overflow-x-auto flex-1">
+        <h1 class="text-2xl font-bold mb-6 text-center">Lista de Ventas</h1>
+        <table id="ventas-table" class="w-full border-collapse shadow-xl rounded-lg overflow-hidden">
+            <thead>
+                <tr class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+                    <th class="px-4 py-3 border text-white">Fecha</th>
+                    <th class="px-4 py-3 border text-white">Cliente</th>
+                    <th class="px-4 py-3 border">Vendedor</th>
+                    <th class="px-4 py-3 border">Total</th>
+                    <th class="px-4 py-3 border">Estado</th>
+                    <th class="px-4 py-3 border text-bg-dark">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="venta : ${ventas}" class="hover:bg-gradient-to-r hover:from-[#e0eafc] hover:to-[#cfdef3] transition-colors duration-300">
+                    <td class="px-4 py-3 border" th:text="${venta.fecha}"></td>
+                    <td class="px-4 py-3 border" th:text="${venta.cliente}"></td>
+                    <td class="px-4 py-3 border" th:text="${venta.vendedor}"></td>
+                    <td class="px-4 py-3 border" th:text="${venta.total}"></td>
+                    <td class="px-4 py-3 border" th:text="${venta.estado}"></td>
+                    <td class="px-4 py-3 border">
+                        <div class="flex justify-center gap-2">
+                            <a th:href="@{/ventas/actualizar/{id}(id=${venta.id})}" class="w-28 text-center px-4 py-2 rounded bg-yellow-400 hover:bg-yellow-500 text-white font-bold transition-colors shadow-md">Editar</a>
+                            <a th:href="@{/ventas/eliminar/{id}(id=${venta.id})}" class="w-28 text-center px-4 py-2 rounded bg-red-400 hover:bg-red-500 text-white font-bold transition-colors shadow-md" onclick="return confirm('¿Seguro que deseas eliminar esta venta?')">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mt-8 flex justify-center">
+            <a href="/ventas/nueva"
+               class="px-8 py-3 rounded-lg bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white font-extrabold uppercase tracking-wider shadow-2xl border-2 border-blue-700 hover:scale-105 hover:from-blue-700 hover:to-blue-500 transition-all duration-300">
+                Nueva Venta
+            </a>
+        </div>
+    </div>
+    <footer class="text-center py-5 bg-gray-800 text-white mt-10 text-sm rounded-b-xl">
+        &copy; Derechos reservados - Ezequiel-creador
+    </footer>
+    <script>
+        // Animación de fade-in para el contenedor y la tabla usando GSAP
+        gsap.from("#main-container", {duration: 1, opacity: 0, y: 40, ease: "power2.out"});
+        gsap.from("#ventas-table", {duration: 1.2, opacity: 0, y: 40, delay: 0.3, ease: "power2.out"});
+    </script>
+</body>
+</html>
