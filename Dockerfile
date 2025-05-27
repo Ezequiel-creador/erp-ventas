@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia el .jar compilado
-COPY target/*.jar app.jar
+COPY target/erp-ventas-0.0.1-SNAPSHOT.jar app.jar
 
 # Expone el puerto que usa Spring Boot
 EXPOSE 8080
