@@ -1,13 +1,22 @@
-# Usa una imagen de Java 17
-FROM openjdk:17-jdk-slim
-
-# Crea un directorio dentro del contenedor para la app
+# Stage 1: Build
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 
-# Copia el .jar compilado
-COPY target/erp-ventas-0.0.1-SNAPSHOT.jar app.jar
+# Copiar pom.xml y archivos fuente
+COPY pom.xml .
+COPY src ./src
 
-# Expone el puerto que usa Spring Boot
+# Ejecutar mvn package para construir el .jar
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+
+# Copiar el .jar desde el stage anterior
+COPY --from=build /app/target/erp-ventas-0.0.1-SNAPSHOT.jar app.jar
+
+# Exponer el puerto (ajustar según tu configuración)
 EXPOSE 8080
 
 # Comando para ejecutar la app
